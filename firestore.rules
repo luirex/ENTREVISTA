@@ -1,47 +1,44 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() { return request.auth != null; }
-    function myProfile() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
-    function isAdmin() { return signedIn() && myProfile().role == 'admin' && myProfile().status != 'disabled'; }
-    function isCalendarMember(calendarId) {
-      return signedIn() && exists(/databases/$(database)/documents/calendarMembers/$(request.auth.uid + '_' + calendarId))
-        && get(/databases/$(database)/documents/calendarMembers/$(request.auth.uid + '_' + calendarId)).data.active == true;
-    }
+    function signed() { return request.auth != null; }
+    function role() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role; }
+    function isAdmin() { return signed() && role() == 'admin'; }
+    function staff() { return signed() && role() in ['admin','calendarAdmin','editor']; }
+    function active() { return signed() && role() in ['admin','calendarAdmin','editor','viewer']; }
 
-    match /users/{userId} {
-      allow create: if signedIn() && request.auth.uid == userId
-        && request.resource.data.uid == userId
-        && request.resource.data.role == 'pending'
-        && request.resource.data.status == 'pending';
-      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
-      // El usuario no puede cambiar su propio rol ni estado. La administración se hará con backend confiable.
-      allow update, delete: if isAdmin();
+    match /users/{uid} {
+      allow read: if signed() && (request.auth.uid == uid || isAdmin());
+      allow create: if signed() && request.auth.uid == uid && request.resource.data.role == 'pending';
+      allow update: if isAdmin();
     }
-
-    match /usernames/{username} {
-      // El índice de nombres de usuario solo se consulta durante el registro.
-      // No contiene correos ni datos personales.
+    match /usernames/{name} {
       allow get: if true;
-      allow list: if false;
-      allow create: if signedIn()
-        && request.resource.data.uid == request.auth.uid
-        && !exists(/databases/$(database)/documents/usernames/$(username));
-      allow update, delete: if isAdmin();
+      allow create: if signed() && request.resource.data.uid == request.auth.uid;
     }
-
-    match /calendars/{calendarId} {
-      allow read: if isAdmin() || isCalendarMember(calendarId);
-      allow create: if isAdmin() && request.resource.data.createdBy == request.auth.uid;
-      allow update, delete: if isAdmin();
-    }
-
-    match /calendarMembers/{membershipId} {
-      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+    match /calendars/{id} {
+      allow get: if true;               // necesario para el enlace público de reservas
+      allow list: if active();
       allow create, update, delete: if isAdmin();
     }
-
-    // Las demás colecciones permanecen cerradas hasta implementar sus reglas específicas.
-    match /{document=**} { allow read, write: if false; }
+    match /calendarMembers/{id} {
+      allow read: if signed();
+      allow write: if isAdmin();
+    }
+    match /interviewers/{id} {
+      allow read: if active();
+      allow write: if isAdmin();
+    }
+    match /appointments/{id} {
+      allow create: if (request.resource.data.source == 'public' && request.resource.data.status == 'pending') || staff();
+      allow read: if active();
+      allow update, delete: if staff();
+    }
+    match /slots/{id} {                 // evita reservas dobles (id determinista)
+      allow get, list: if true;
+      allow create: if true;
+      allow update: if false;
+      allow delete: if staff();
+    }
   }
 }

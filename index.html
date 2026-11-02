@@ -143,7 +143,20 @@
 
     @media(max-width:900px){.auth-wrap{grid-template-columns:1fr}.auth-aside{display:none}.sidebar{width:230px}.main{margin-left:230px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media(max-width:650px){.sidebar{transform:translateX(-100%);transition:transform .3s var(--ease);width:270px}.sidebar.open{transform:none;box-shadow:var(--sh-lg)}.main{margin-left:0}.topbar{padding:0 16px}.mobile-menu{display:inline-flex}.content{padding:20px 15px}.stats{gap:12px}.stat{padding:15px}.stat-value{font-size:27px}.calendar-grid{grid-template-columns:1fr}.page-head{flex-direction:column}.page-head h1{font-size:25px}.two-col{grid-template-columns:1fr}.auth-main{padding:22px}.user-chip>div:last-child{display:none}.user-chip{padding:4px}}
-    .content,.modal,.auth-card{zoom:var(--zoom)}.auth-main{position:relative}
+    .content,.modal,.auth-card,.book-card{zoom:var(--zoom)}
+    .toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}.toolbar .field{margin:0;min-width:150px;flex:1}
+    .mini{padding:6px 11px;font-size:12px;border-radius:9px}
+    .bar-row{display:grid;grid-template-columns:minmax(80px,150px) 1fr 34px;gap:12px;align-items:center;margin:10px 0;font-size:13px}
+    .bar{height:10px;border-radius:10px;background:var(--bg);overflow:hidden}.bar i{display:block;height:100%;background:var(--grad);border-radius:10px;transition:width .6s var(--ease)}
+    .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px}.kpis .stat-value{font-size:28px;margin-top:6px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}.chips label{display:flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--line);border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .2s}.chips label:hover{border-color:var(--blue)}
+    .chips input[type=checkbox]{width:auto!important;padding:0!important;box-shadow:none!important;accent-color:var(--blue)}
+    .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}
+    .slot{border:1px solid var(--line);background:var(--bg);color:var(--text);padding:10px 0;border-radius:11px;font-weight:650;transition:all .2s}.slot:hover:not(:disabled){border-color:var(--blue);transform:translateY(-2px)}
+    .slot.on{background:var(--grad);color:#fff;border-color:transparent}.slot:disabled{opacity:.4;text-decoration:line-through;cursor:not-allowed}
+    .book-wrap{min-height:100vh;display:grid;place-items:start center;padding:32px 16px;background:radial-gradient(800px 500px at 90% -10%,rgba(106,76,240,.18),transparent 60%),var(--bg)}.book-card{width:min(100%,660px);animation:rise .5s var(--ease) both}
+    .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:#0f1d33;color:#fff;padding:12px 20px;border-radius:12px;box-shadow:var(--sh-lg);z-index:60;animation:rise .3s var(--ease) both;font-weight:600;font-size:14px;max-width:90vw}.toast.err{background:#a12f2f}
+    .ok-mark{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#12a06c,#22c3a6);color:#fff;display:grid;place-items:center;font-size:30px;margin:0 auto 14px;box-shadow:0 12px 26px -8px rgba(18,160,108,.6)}.auth-main{position:relative}
     .seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);padding:4px;border-radius:13px;gap:4px;flex-wrap:wrap}
     .seg button{border:0;background:none;padding:9px 16px;border-radius:10px;font-weight:650;color:var(--muted);transition:all .2s}
     .seg button:hover{color:var(--text)}.seg button.on{background:var(--grad);color:#fff;box-shadow:0 6px 14px -4px rgba(59,108,246,.5)}
@@ -244,13 +257,17 @@
               <div class="stat"><div class="stat-top"><span>Entrevistadores</span><span class="stat-icon">♧</span></div><div class="stat-value" id="statInterviewers">—</div><div class="small muted">Registros activos</div></div>
             </div>
             <div class="panel"><div class="panel-head"><h2>Calendarios recientes</h2><button class="btn btn-light" data-goto="calendars">Ver todos</button></div><div id="recentCalendars" class="calendar-grid"><div class="empty">Cargando calendarios…</div></div></div>
+            <div class="panel"><div class="panel-head"><h2>Próximas reservas</h2><button class="btn btn-light" data-goto="appointments">Ver todas</button></div><div class="table-wrap" id="upcoming"></div></div>
             <div class="panel"><div class="panel-head"><h2>Estado de conexión</h2><span class="pill green" id="connectionState">Conectando</span></div><p class="muted" id="connectionText" style="margin:0">Comprobando autenticación y base de datos.</p></div>
           </section>
           <section id="calendarsPage" class="hidden"><div class="page-head"><div><h1>Calendarios</h1><p>Administra las agendas que tienes autorizadas.</p></div><button class="btn btn-primary" id="createCalendarBtn">＋ Crear calendario</button></div><div class="panel"><div id="calendarList" class="calendar-grid"><div class="empty">Cargando…</div></div></div></section>
-          <section id="appointmentsPage" class="hidden"><div class="page-head"><div><h1>Reservas</h1><p>Consulta las reservas registradas en tus calendarios.</p></div></div><div class="panel"><div class="empty"><strong>Módulo de reservas en preparación</strong>La estructura de datos se incorporará en la siguiente iteración. No se muestran registros ficticios.</div></div></section>
-          <section id="usersPage" class="hidden"><div class="page-head"><div><h1>Usuarios</h1><p>Consulta las cuentas registradas en la plataforma.</p></div></div><div class="panel"><div id="usersList" class="empty">La administración de roles y permisos se habilitará en la siguiente iteración.</div></div></section>
-          <section id="interviewersPage" class="hidden"><div class="page-head"><div><h1>Entrevistadores</h1><p>Gestiona las personas asignadas a las agendas.</p></div></div><div class="panel"><div class="empty"><strong>Módulo en preparación</strong>Se habilitará junto con la configuración de calendarios.</div></div></section>
-          <section id="reportsPage" class="hidden"><div class="page-head"><div><h1>Estadísticas</h1><p>Indicadores de actividad y ocupación.</p></div></div><div class="panel"><div class="empty"><strong>Sin estadísticas todavía</strong>Los reportes se activarán cuando esté disponible el módulo de reservas.</div></div></section>
+          <section id="appointmentsPage" class="hidden"><div class="page-head"><div><h1>Reservas</h1><p>Consulta y gestiona las reservas de tus calendarios.</p></div><button class="btn btn-primary" id="newAppBtn" type="button">＋ Nueva reserva</button></div>
+            <div class="panel"><div class="toolbar"><div class="field"><label for="fSearch">Buscar</label><input id="fSearch" placeholder="Nombre o correo"></div><div class="field"><label for="fCal">Calendario</label><select id="fCal"></select></div><div class="field"><label for="fStatus">Estado</label><select id="fStatus"><option value="">Todos</option><option value="pending">Pendiente</option><option value="confirmed">Confirmada</option><option value="completed">Atendida</option><option value="cancelled">Cancelada</option></select></div><div class="field"><label for="fDate">Fecha</label><input id="fDate" type="date"></div></div><div class="table-wrap" id="appsTable"></div></div></section>
+          <section id="usersPage" class="hidden"><div class="page-head"><div><h1>Usuarios</h1><p>Consulta las cuentas registradas en la plataforma.</p></div></div><div class="panel"><div class="table-wrap" id="usersList"></div></div></section>
+          <section id="interviewersPage" class="hidden"><div class="page-head"><div><h1>Entrevistadores</h1><p>Gestiona las personas asignadas a las agendas.</p></div><button class="btn btn-primary" id="newIntBtn" type="button">＋ Nuevo entrevistador</button></div><div class="panel"><div class="table-wrap" id="intTable"></div></div></section>
+          <section id="reportsPage" class="hidden"><div class="page-head"><div><h1>Estadísticas</h1><p>Indicadores de actividad y ocupación.</p></div></div><div class="kpis" id="kpis"></div>
+            <div class="two-col" style="align-items:start"><div class="panel"><div class="panel-head"><h2>Reservas por calendario</h2></div><div id="barsCal"></div></div><div class="panel"><div class="panel-head"><h2>Próximos 14 días</h2></div><div id="barsDay"></div></div></div>
+            <div class="panel"><div class="panel-head"><h2>Exportar datos</h2><button class="btn btn-primary" id="exportBtn" type="button">⬇ Descargar CSV</button></div><p class="muted" style="margin:0">Exporta las reservas visibles para tu usuario en un archivo compatible con Excel.</p></div></section>
           <section id="appearancePage" class="hidden">
             <div class="page-head"><div><h1>Apariencia</h1><p>Personaliza tema, colores y tipografía. Los cambios se aplican al instante y se guardan en este dispositivo.</p></div><button class="btn btn-outline" id="resetAp" type="button">Restablecer</button></div>
             <div class="panel"><div class="panel-head"><h2>Tema</h2></div>
@@ -279,6 +296,30 @@
     </main>
   </section>
 
+  <section id="bookView" class="book-wrap hidden"><div class="book-card"><div class="brand" style="margin-bottom:22px"><div class="brand-mark">A</div><span>AGENDA DE ENTREVISTAS</span></div><div id="bookBody"><div class="empty">Cargando…</div></div></div></section>
+
+  <div id="appModal" class="modal-backdrop hidden"><div class="modal"><h2>Nueva reserva</h2><p class="muted small">Registra manualmente una reserva en un calendario.</p>
+    <form id="appForm"><div class="field"><label for="aCal">Calendario *</label><select id="aCal" required></select></div>
+      <div class="field hidden" id="aIntWrap"><label for="aInt">Entrevistador</label><select id="aInt"></select></div>
+      <div class="two-col"><div class="field"><label for="aDate">Fecha *</label><input id="aDate" type="date" required></div><div class="field"><label for="aTime">Hora *</label><select id="aTime" required></select></div></div>
+      <div class="field"><label for="aName">Nombre completo *</label><input id="aName" required maxlength="120"></div>
+      <div class="two-col"><div class="field"><label for="aEmail">Correo *</label><input id="aEmail" type="email" required></div><div class="field"><label for="aPhone">Teléfono</label><input id="aPhone" maxlength="30"></div></div>
+      <div class="field"><label for="aNotes">Notas</label><textarea id="aNotes" rows="2" maxlength="500"></textarea></div>
+      <div class="modal-actions"><button type="button" class="btn btn-outline" data-close>Cancelar</button><button class="btn btn-primary" type="submit">Guardar reserva</button></div></form></div></div>
+
+  <div id="intModal" class="modal-backdrop hidden"><div class="modal"><h2 id="intTitle">Nuevo entrevistador</h2><p class="muted small">Persona que atenderá las entrevistas.</p>
+    <form id="intForm"><div class="field"><label for="iName">Nombre completo *</label><input id="iName" required maxlength="120"></div>
+      <div class="two-col"><div class="field"><label for="iEmail">Correo</label><input id="iEmail" type="email"></div><div class="field"><label for="iPhone">Teléfono</label><input id="iPhone" maxlength="30"></div></div>
+      <div class="two-col"><div class="field"><label for="iSpec">Especialidad / cargo</label><input id="iSpec" maxlength="100"></div><div class="field"><label for="iActive">Estado</label><select id="iActive"><option value="true">Activo</option><option value="false">Inactivo</option></select></div></div>
+      <div class="modal-actions"><button type="button" class="btn btn-outline" data-close>Cancelar</button><button class="btn btn-primary" type="submit">Guardar</button></div></form></div></div>
+
+  <div id="userModal" class="modal-backdrop hidden"><div class="modal"><h2>Gestionar usuario</h2><p class="muted small" id="uSub"></p>
+    <form id="userForm"><div class="two-col"><div class="field"><label for="uRole">Rol</label><select id="uRole"></select></div><div class="field"><label for="uStatus">Estado</label><select id="uStatus"><option value="active">Activo</option><option value="disabled">Desactivado</option></select></div></div>
+      <div class="field"><label>Calendarios con acceso</label><div class="chips" id="uCals"></div></div><p class="muted small">El administrador principal accede a todos los calendarios.</p>
+      <div class="modal-actions"><button type="button" class="btn btn-outline" data-close>Cancelar</button><button class="btn btn-primary" type="submit">Guardar cambios</button></div></form></div></div>
+
+  <div id="viewModal" class="modal-backdrop hidden"><div class="modal" id="viewBody"></div></div>
+
   <div id="calendarModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal">
       <h2 id="modalTitle">Crear calendario</h2><p class="muted small">Registra la información inicial de una agenda.</p>
@@ -296,6 +337,11 @@
           <div class="field"><label for="calStart">Fecha de inicio *</label><input id="calStart" type="date" required></div>
           <div class="field"><label for="calEnd">Fecha de finalización *</label><input id="calEnd" type="date" required></div>
         </div>
+        <div class="set-label" style="margin:8px 0 0">Horarios de atención</div>
+        <div class="two-col"><div class="field"><label for="calDayStart">Hora de inicio</label><input id="calDayStart" type="time" value="08:00" required></div><div class="field"><label for="calDayEnd">Hora de fin</label><input id="calDayEnd" type="time" value="17:00" required></div></div>
+        <div class="two-col"><div class="field"><label for="calSlot">Duración por entrevista</label><select id="calSlot"><option value="15">15 min</option><option value="20">20 min</option><option value="30" selected>30 min</option><option value="45">45 min</option><option value="60">60 min</option></select></div><div class="field"><label for="calOpen">Reservas públicas</label><select id="calOpen"><option value="true">Abiertas (con enlace)</option><option value="false">Cerradas</option></select></div></div>
+        <div class="field"><label>Días de atención</label><div class="chips" id="calDays"></div></div>
+        <div class="field"><label>Entrevistadores asignados</label><div class="chips" id="calInts"></div></div>
         <div class="field"><label for="calStatus">Estado</label><select id="calStatus"><option value="active">Activo</option><option value="draft">Borrador</option></select></div>
         <div class="modal-actions"><button type="button" class="btn btn-outline" id="cancelModal">Cancelar</button><button type="submit" class="btn btn-primary" id="saveCalendarBtn">Guardar calendario</button></div>
       </form>
@@ -389,6 +435,7 @@
 
     auth?.onAuthStateChanged(async user=>{
       currentUser=user;
+      if(BOOK_ID)return;
       if(!user){$("appView").classList.add("hidden");$("authView").classList.remove("hidden");return;}
       if(!db){await auth.signOut();return;}
       $("authView").classList.add("hidden");$("appView").classList.remove("hidden");
@@ -407,22 +454,22 @@
       try{
         const calendars=await getAccessibleCalendars();
         $("statCalendars").textContent=calendars.length;
-        $("statAppointments").textContent="—";$("statUsers").textContent=currentProfile.role==="admin"?"—":"Restringido";$("statInterviewers").textContent="—";
+        await loadExtras(calendars);
         renderCalendars(calendars.slice(0,4),"recentCalendars");renderCalendars(calendars,"calendarList");
         $("connectionState").textContent="Conectado";$("connectionText").textContent="Sesión autenticada y lectura de calendarios completada correctamente.";
       }catch(err){console.error(err);$("connectionState").textContent="Revisar permisos";$("connectionText").textContent=friendlyError(err);$("recentCalendars").innerHTML='<div class="empty">No se pudieron consultar los calendarios. Revisa las reglas de Firestore.</div>';}
     }
     function renderCalendars(items,target){
       const el=$(target);if(!items.length){el.innerHTML='<div class="empty" style="grid-column:1/-1"><strong>Todavía no hay calendarios</strong>Cuando crees una agenda, aparecerá aquí.</div>';return;}
-      el.innerHTML=items.map(c=>`<article class="calendar-card"><h3>${escapeHtml(c.name||"Calendario sin nombre")}</h3><div class="muted small">${escapeHtml(c.subject||"Sin asunto")}</div><div class="calendar-meta"><span class="pill">${c.managementMode==="shared"?"Agenda compartida":"Agendas independientes"}</span><span class="pill ${c.status==="active"?"green":"orange"}">${c.status==="active"?"Activo":"Borrador"}</span><span class="pill">${escapeHtml(c.attentionMode||"presencial")}</span></div><div class="small muted" style="margin-top:12px">${escapeHtml(c.startDate||"Sin fecha")} — ${escapeHtml(c.endDate||"Sin fecha")}</div><div class="card-actions"><button class="btn btn-light" data-open-calendar="${c.id}">Consultar</button></div></article>`).join("");
+      el.innerHTML=items.map(c=>`<article class="calendar-card"><h3>${escapeHtml(c.name||"Calendario sin nombre")}</h3><div class="muted small">${escapeHtml(c.subject||"Sin asunto")}</div><div class="calendar-meta"><span class="pill">${c.managementMode==="shared"?"Agenda compartida":"Agendas independientes"}</span><span class="pill ${c.status==="active"?"green":"orange"}">${c.status==="active"?"Activo":"Borrador"}</span><span class="pill">${escapeHtml(c.attentionMode||"presencial")}</span></div><div class="small muted" style="margin-top:12px">${escapeHtml(c.startDate||"Sin fecha")} — ${escapeHtml(c.endDate||"Sin fecha")}</div><div class="card-actions"><button class="btn btn-light" data-a="cal-view" data-id="${c.id}">Consultar</button><button class="btn btn-outline" data-a="cal-link" data-id="${c.id}">🔗 Copiar enlace</button>${isAdmin()?`<button class="btn btn-outline" data-a="cal-edit" data-id="${c.id}">Editar</button>`:""}</div></article>`).join("");
     }
     function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
 
     function openCalendarModal(){
       if(currentProfile?.role!=="admin"){alert("Solo el administrador principal puede crear calendarios en esta versión inicial.");return;}
-      $("calendarForm").reset();hideNotice("modalNotice");const today=new Date().toLocaleDateString("en-CA",{timeZone:"America/Guayaquil"});$("calStart").value=today;$("calEnd").value=today;$("calendarModal").classList.remove("hidden");
+      $("calendarForm").reset();hideNotice("modalNotice");const today=new Date().toLocaleDateString("en-CA",{timeZone:"America/Guayaquil"});$("calStart").value=today;$("calEnd").value=today;renderCalConfig();$("calendarModal").classList.remove("hidden");
     }
-    function closeCalendarModal(){$("calendarModal").classList.add("hidden");}
+    function closeCalendarModal(){$("calendarModal").classList.add("hidden");editingCal=null;$("modalTitle").textContent="Crear calendario";$("saveCalendarBtn").textContent="Guardar calendario";}
     $("quickCreate").addEventListener("click",openCalendarModal);$("createCalendarBtn").addEventListener("click",openCalendarModal);$("cancelModal").addEventListener("click",closeCalendarModal);
     $("calendarModal").addEventListener("click",e=>{if(e.target===$("calendarModal"))closeCalendarModal();});
     document.addEventListener("keydown",e=>{if(e.key==="Escape")closeCalendarModal();});
@@ -431,8 +478,8 @@
       const start=$("calStart").value,end=$("calEnd").value;if(end<start){showNotice("modalNotice","La fecha final no puede ser anterior a la fecha inicial.","error");return;}
       const btn=$("saveCalendarBtn");setBusy(btn,true,"Guardar calendario");
       try{
-        const data={name:$("calName").value.trim(),subject:$("calSubject").value.trim(),description:$("calDescription").value.trim(),managementMode:$("calMode").value,attentionMode:$("calType").value,location:$("calLocation").value.trim(),startDate:start,endDate:end,status:$("calStatus").value,timezone:"America/Guayaquil",ownerId:currentUser.uid,createdBy:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
-        await db.collection("calendars").add(data);closeCalendarModal();await refreshDashboard();showPage("calendars");
+        const data={name:$("calName").value.trim(),subject:$("calSubject").value.trim(),description:$("calDescription").value.trim(),managementMode:$("calMode").value,attentionMode:$("calType").value,location:$("calLocation").value.trim(),startDate:start,endDate:end,status:$("calStatus").value,...calConfig(),timezone:"America/Guayaquil",ownerId:currentUser.uid,createdBy:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+        await saveCalendar(data);closeCalendarModal();await refreshDashboard();showPage("calendars");
       }catch(err){showNotice("modalNotice",friendlyError(err),"error");}
       finally{setBusy(btn,false,"Guardar calendario");}
     });
@@ -444,6 +491,257 @@
     $("logoutBtn").addEventListener("click",()=>auth?.signOut());
     $("pendingRefresh").addEventListener("click",async()=>{if(currentUser)await loadProfile(currentUser);});
     document.addEventListener("click",e=>{const b=e.target.closest("[data-open-calendar]");if(b){const id=b.dataset.openCalendar;const item=document.createElement("div");item.className="notice";item.textContent="Identificador del calendario: "+id+". La edición y configuración avanzada se habilitarán en la siguiente fase.";const host=$("calendarList");host.prepend(item);setTimeout(()=>item.remove(),5000);}});
+
+    /* ===== Gestión ===== */
+    const BOOK_ID=new URLSearchParams(location.search).get("book");
+    const TZ="America/Guayaquil",p2=n=>String(n).padStart(2,"0"),esc=escapeHtml;
+    const ST={pending:["Pendiente","orange"],confirmed:["Confirmada","green"],completed:["Atendida",""],cancelled:["Cancelada",""]};
+    const ROLES={admin:"Administrador principal",calendarAdmin:"Administrador de agenda",editor:"Editor",viewer:"Consulta",pending:"Pendiente"};
+    const WD=[1,2,3,4,5,6,0],WDN={0:"Dom",1:"Lun",2:"Mar",3:"Mié",4:"Jue",5:"Vie",6:"Sáb"};
+    let CALS=[],APPS=[],INTS=[],USERS=[],editingCal=null,editingInt=null,editingUser=null,umem={},bk={};
+    const isAdmin=()=>currentProfile?.role==="admin",canEdit=()=>["admin","calendarAdmin","editor"].includes(currentProfile?.role);
+    const nowLocal=()=>new Date().toLocaleString("sv-SE",{timeZone:TZ}),todayStr=()=>nowLocal().slice(0,10);
+    const fmtDate=d=>d?d.split("-").reverse().join("/"):"";
+    const addMin=(s,m)=>{const[h,i]=s.split(":").map(Number),t=h*60+i+m;return p2(t/60|0)+":"+p2(t%60);};
+    const shareLink=id=>location.href.split("#")[0].split("?")[0]+"?book="+id;
+    const serverTs=()=>firebase.firestore.FieldValue.serverTimestamp();
+    const show=id=>$(id).classList.remove("hidden"),hide=id=>$(id).classList.add("hidden");
+    const calName=a=>CALS.find(c=>c.id===a.calendarId)?.name||a.calendarName||"—";
+    const empty=(t,s)=>`<div class="empty"><strong>${t}</strong>${s||""}</div>`;
+    const tbl=(h,r)=>`<table><thead><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr></thead><tbody>${r.join("")}</tbody></table>`;
+    const pill=s=>{const[l,c]=ST[s]||ST.pending;return `<span class="pill ${c}">${l}</span>`;};
+    const person=a=>`<strong>${esc(a.name)}</strong><div class="muted small">${esc(a.email||"")}${a.phone?" · "+esc(a.phone):""}</div>`;
+    const byDate=(a,b)=>(b.date+b.time).localeCompare(a.date+a.time);
+    function toast(m,err){const t=document.createElement("div");t.className="toast"+(err?" err":"");t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3200);}
+    async function safe(fn,ok){try{await fn();if(ok)toast(ok);await reloadAll();}catch(e){console.error(e);toast(friendlyError(e),true);}}
+    async function reloadAll(){await Promise.allSettled([loadApps(),loadInts(),isAdmin()?loadUsers():0]);renderAll();}
+
+    /* Horarios */
+    function genSlots(c,date,all){
+      if(!date||(c.startDate&&date<c.startDate)||(c.endDate&&date>c.endDate))return[];
+      if(!(c.weekdays||[1,2,3,4,5]).includes(new Date(date+"T12:00:00").getDay()))return[];
+      const st=+c.slotMinutes||30,a=(c.dayStart||"08:00").split(":").map(Number),b=(c.dayEnd||"17:00").split(":").map(Number),out=[],n=nowLocal();
+      for(let t=a[0]*60+a[1];t+st<=b[0]*60+b[1];t+=st){const s=p2(t/60|0)+":"+p2(t%60);if(all||date+" "+s+":00">n)out.push(s);}
+      return out;
+    }
+    const slotKey=(c,d,t,iid)=>`${c.id}_${d}_${t.replace(":","")}_${c.managementMode==="independent"&&iid?iid:"all"}`;
+    async function takenSlots(cid,d){const s=await db.collection("slots").where("calendarId","==",cid).where("date","==",d).get();return new Set(s.docs.map(x=>x.id));}
+    async function book(c,o,source){
+      const key=slotKey(c,o.date,o.time,o.iid),aRef=db.collection("appointments").doc(),b=db.batch(),ts=serverTs();
+      b.set(db.collection("slots").doc(key),{calendarId:c.id,date:o.date,time:o.time,appointmentId:aRef.id,createdAt:ts});
+      b.set(aRef,{calendarId:c.id,calendarName:c.name,interviewerId:o.iid||"",interviewerName:o.iname||"",date:o.date,time:o.time,endTime:addMin(o.time,+c.slotMinutes||30),name:o.name,email:o.email,phone:o.phone||"",notes:o.notes||"",status:source==="public"?"pending":"confirmed",source,slotId:key,createdAt:ts});
+      await b.commit();
+    }
+
+    /* Carga */
+    async function loadExtras(cals){
+      CALS=cals;const adm=isAdmin();
+      document.querySelectorAll('[data-page="users"],[data-page="interviewers"]').forEach(b=>b.classList.toggle("hidden",!adm));
+      ["quickCreate","createCalendarBtn"].forEach(id=>$(id).classList.toggle("hidden",!adm));
+      $("newAppBtn").classList.toggle("hidden",!canEdit());
+      await reloadAll();
+    }
+    async function loadApps(){
+      if(isAdmin()){APPS=(await db.collection("appointments").limit(1000).get()).docs.map(d=>({id:d.id,...d.data()}));return;}
+      APPS=[];const ids=CALS.map(c=>c.id);
+      for(let i=0;i<ids.length;i+=10){const s=await db.collection("appointments").where("calendarId","in",ids.slice(i,i+10)).get();s.docs.forEach(d=>APPS.push({id:d.id,...d.data()}));}
+    }
+    async function loadInts(){INTS=(await db.collection("interviewers").limit(300).get()).docs.map(d=>({id:d.id,...d.data()}));INTS.sort((a,b)=>(a.name||"").localeCompare(b.name||""));}
+    async function loadUsers(){USERS=(await db.collection("users").limit(300).get()).docs.map(d=>({id:d.id,...d.data()}));}
+
+    /* Render */
+    function renderAll(){
+      $("statCalendars").textContent=CALS.length;$("statAppointments").textContent=APPS.length;
+      $("statUsers").textContent=isAdmin()?USERS.length:"Restringido";$("statInterviewers").textContent=INTS.filter(i=>i.active!==false).length;
+      const cur=$("fCal").value;$("fCal").innerHTML='<option value="">Todos</option>'+CALS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");$("fCal").value=cur;
+      renderUpcoming();renderApps();renderInts();renderUsers();renderReports();
+    }
+    function renderUpcoming(){
+      const t=todayStr(),l=APPS.filter(a=>a.date>=t&&a.status!=="cancelled").sort((a,b)=>byDate(b,a)).slice(0,6);
+      $("upcoming").innerHTML=l.length?tbl(["Fecha","Hora","Persona","Calendario","Estado"],l.map(a=>`<tr><td>${fmtDate(a.date)}</td><td>${a.time}</td><td>${person(a)}</td><td>${esc(calName(a))}</td><td>${pill(a.status)}</td></tr>`)):empty("Sin reservas próximas","Cuando alguien reserve, aparecerá aquí.");
+    }
+    function acts(a){const b=(k,l,c)=>`<button class="btn ${c||"btn-light"} mini" data-a="app-${k}" data-id="${a.id}">${l}</button>`;
+      return `<div style="display:flex;gap:6px;flex-wrap:wrap">${a.status==="pending"?b("confirmed","Confirmar"):""}${["pending","confirmed"].includes(a.status)?b("completed","Atendida")+b("cancelled","Cancelar","btn-danger"):""}${b("delete","Eliminar","btn-danger")}</div>`;}
+    function renderApps(){
+      const q=$("fSearch").value.trim().toLowerCase(),c=$("fCal").value,s=$("fStatus").value,d=$("fDate").value,ed=canEdit();
+      const l=APPS.filter(a=>(!c||a.calendarId===c)&&(!s||a.status===s)&&(!d||a.date===d)&&(!q||((a.name||"")+" "+(a.email||"")).toLowerCase().includes(q))).sort(byDate);
+      $("appsTable").innerHTML=l.length?tbl(["Fecha","Hora","Persona","Calendario","Entrevistador","Estado",ed?"Acciones":""],l.map(a=>`<tr><td>${fmtDate(a.date)}</td><td>${a.time}–${a.endTime||""}</td><td>${person(a)}</td><td>${esc(calName(a))}</td><td>${esc(a.interviewerName||"—")}</td><td>${pill(a.status)}</td><td>${ed?acts(a):""}</td></tr>`)):empty("No hay reservas","Ajusta los filtros o crea una nueva reserva.");
+    }
+    function renderInts(){
+      $("intTable").innerHTML=INTS.length?tbl(["Nombre","Contacto","Especialidad","Estado","Acciones"],INTS.map(i=>`<tr><td><strong>${esc(i.name)}</strong></td><td>${esc(i.email||"")}<div class="muted small">${esc(i.phone||"")}</div></td><td>${esc(i.specialty||"—")}</td><td><span class="pill ${i.active===false?"":"green"}">${i.active===false?"Inactivo":"Activo"}</span></td><td><div style="display:flex;gap:6px"><button class="btn btn-light mini" data-a="int-edit" data-id="${i.id}">Editar</button><button class="btn btn-danger mini" data-a="int-del" data-id="${i.id}">Eliminar</button></div></td></tr>`)):empty("Aún no hay entrevistadores","Crea el primero con el botón superior.");
+    }
+    function renderUsers(){
+      if(!isAdmin())return;
+      $("usersList").innerHTML=USERS.length?tbl(["Usuario","Correo","Rol","Estado","Acciones"],USERS.map(u=>`<tr><td><strong>${esc(u.name||"")}</strong><div class="muted small">@${esc(u.username||"")}</div></td><td>${esc(u.email||"")}</td><td><span class="pill ${u.role==="pending"?"orange":"green"}">${ROLES[u.role]||esc(u.role)}</span></td><td>${u.status==="disabled"?'<span class="pill">Desactivado</span>':u.status==="pending"?'<span class="pill orange">Pendiente</span>':'<span class="pill green">Activo</span>'}</td><td><button class="btn btn-light mini" data-a="user-edit" data-id="${u.id}">Gestionar</button></td></tr>`)):empty("Sin usuarios");
+    }
+    function renderReports(){
+      const cnt=s=>APPS.filter(a=>a.status===s).length,act=APPS.filter(a=>a.status!=="cancelled");let cap=0;
+      CALS.forEach(c=>{if(!c.startDate||!c.endDate)return;const e=new Date(c.endDate+"T12:00:00");let n=0;
+        for(let d=new Date(c.startDate+"T12:00:00"),i=0;d<=e&&i<366;i++,d.setDate(d.getDate()+1))n+=genSlots(c,`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`,true).length;
+        cap+=n*(c.managementMode==="independent"?Math.max(1,(c.interviewers||[]).length):1);});
+      const k=[["Total",APPS.length],["Pendientes",cnt("pending")],["Confirmadas",cnt("confirmed")],["Atendidas",cnt("completed")],["Canceladas",cnt("cancelled")],["Ocupación",cap?Math.round(act.length/cap*100)+"%":"—"]];
+      $("kpis").innerHTML=k.map(([l,v])=>`<div class="stat"><div class="stat-top"><span>${l}</span></div><div class="stat-value">${v}</div></div>`).join("");
+      const bars=(rows)=>{const m=Math.max(1,...rows.map(r=>r[1]));return rows.length?rows.map(([l,v])=>`<div class="bar-row"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(l)}</span><div class="bar"><i style="width:${v/m*100}%"></i></div><strong>${v}</strong></div>`).join(""):'<p class="muted">Sin datos todavía.</p>';};
+      $("barsCal").innerHTML=bars(CALS.map(c=>[c.name,act.filter(a=>a.calendarId===c.id).length]));
+      const days=[];for(let i=0;i<14;i++){const d=new Date(todayStr()+"T12:00:00");d.setDate(d.getDate()+i);const s=`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;days.push([fmtDate(s).slice(0,5),act.filter(a=>a.date===s).length]);}
+      $("barsDay").innerHTML=bars(days);
+    }
+    ["fSearch","fCal","fStatus","fDate"].forEach(id=>$(id).addEventListener("input",renderApps));
+    $("exportBtn").addEventListener("click",()=>{
+      const f=v=>{v=String(v??"");if(/^[=+\-@]/.test(v))v="'"+v;return `"${v.replace(/"/g,'""')}"`;};
+      const rows=[["Fecha","Hora","Nombre","Correo","Teléfono","Calendario","Entrevistador","Estado","Notas"],...[...APPS].sort(byDate).map(a=>[a.date,a.time,a.name,a.email,a.phone,calName(a),a.interviewerName,ST[a.status]?.[0],a.notes])];
+      const l=document.createElement("a");l.href=URL.createObjectURL(new Blob(["\ufeff"+rows.map(r=>r.map(f).join(",")).join("\r\n")],{type:"text/csv;charset=utf-8"}));l.download="reservas_"+todayStr()+".csv";l.click();
+    });
+
+    /* Reservas (administración) */
+    async function setStatus(id,st){
+      const a=APPS.find(x=>x.id===id);if(!a)return;const b=db.batch(),ref=db.collection("appointments").doc(id),sl=a.slotId?db.collection("slots").doc(a.slotId):null;
+      if(st==="delete"){if(!confirm("¿Eliminar esta reserva definitivamente?"))return;b.delete(ref);if(sl)b.delete(sl);}
+      else{if(st==="cancelled"&&!confirm("¿Cancelar esta reserva? El horario quedará libre."))return;b.update(ref,{status:st,updatedAt:serverTs()});if(st==="cancelled"&&sl)b.delete(sl);}
+      await b.commit();
+    }
+    function openApp(){
+      if(!CALS.length){toast("Primero crea un calendario.",true);return;}
+      $("appForm").reset();$("aCal").innerHTML=CALS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("");$("aDate").min=todayStr();adminCal();show("appModal");
+    }
+    function adminCal(){
+      const c=CALS.find(x=>x.id===$("aCal").value),ind=c&&c.managementMode==="independent"&&(c.interviewers||[]).length;
+      $("aIntWrap").classList.toggle("hidden",!ind);$("aInt").innerHTML=ind?c.interviewers.map(i=>`<option value="${i.id}">${esc(i.name)}</option>`).join(""):"";adminSlots();
+    }
+    async function adminSlots(){
+      const c=CALS.find(x=>x.id===$("aCal").value),d=$("aDate").value,sel=$("aTime");
+      if(!c||!d){sel.innerHTML='<option value="">Elige una fecha</option>';return;}
+      const all=genSlots(c,d);if(!all.length){sel.innerHTML='<option value="">Sin horarios ese día</option>';return;}
+      try{const tk=await takenSlots(c.id,d),iid=$("aInt").value||"";sel.innerHTML=all.filter(s=>!tk.has(slotKey(c,d,s,iid))).map(s=>`<option>${s}</option>`).join("")||'<option value="">Sin cupos</option>';}catch(e){toast(friendlyError(e),true);}
+    }
+    ["aCal"].forEach(id=>$(id).addEventListener("change",adminCal));["aDate","aInt"].forEach(id=>$(id).addEventListener("change",adminSlots));
+    $("newAppBtn").addEventListener("click",openApp);
+    $("appForm").addEventListener("submit",async e=>{
+      e.preventDefault();const c=CALS.find(x=>x.id===$("aCal").value),iid=$("aInt").value||"";if(!$("aTime").value){toast("Elige un horario disponible.",true);return;}
+      await safe(()=>book(c,{date:$("aDate").value,time:$("aTime").value,iid,iname:c.interviewers?.find(i=>i.id===iid)?.name||"",name:$("aName").value.trim(),email:$("aEmail").value.trim(),phone:$("aPhone").value.trim(),notes:$("aNotes").value.trim()},"admin"),"Reserva creada");
+      hide("appModal");
+    });
+
+    /* Entrevistadores */
+    function openInt(id){
+      editingInt=id||null;const i=INTS.find(x=>x.id===id)||{};$("intForm").reset();
+      $("iName").value=i.name||"";$("iEmail").value=i.email||"";$("iPhone").value=i.phone||"";$("iSpec").value=i.specialty||"";$("iActive").value=i.active===false?"false":"true";
+      $("intTitle").textContent=id?"Editar entrevistador":"Nuevo entrevistador";show("intModal");
+    }
+    $("newIntBtn").addEventListener("click",()=>openInt());
+    $("intForm").addEventListener("submit",async e=>{
+      e.preventDefault();const d={name:$("iName").value.trim(),email:$("iEmail").value.trim(),phone:$("iPhone").value.trim(),specialty:$("iSpec").value.trim(),active:$("iActive").value==="true",updatedAt:serverTs()};
+      await safe(()=>editingInt?db.collection("interviewers").doc(editingInt).update(d):db.collection("interviewers").add({...d,createdAt:serverTs()}),"Entrevistador guardado");hide("intModal");
+    });
+
+    /* Usuarios */
+    async function openUser(id){
+      const u=USERS.find(x=>x.id===id);if(!u)return;editingUser=u;umem={};
+      try{(await db.collection("calendarMembers").where("userId","==",id).get()).docs.forEach(d=>umem[d.data().calendarId]=d.id);}catch(e){toast(friendlyError(e),true);return;}
+      $("uSub").textContent=(u.name||"")+" · "+(u.email||"");
+      $("uRole").innerHTML=Object.entries(ROLES).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");$("uRole").value=u.role||"pending";
+      $("uStatus").value=u.status==="disabled"?"disabled":"active";$("uRole").disabled=$("uStatus").disabled=id===currentUser.uid;
+      $("uCals").innerHTML=CALS.length?CALS.map(c=>`<label><input type="checkbox" value="${c.id}" ${umem[c.id]?"checked":""}> ${esc(c.name)}</label>`).join(""):'<span class="muted small">No hay calendarios.</span>';
+      show("userModal");
+    }
+    $("userForm").addEventListener("submit",async e=>{
+      e.preventDefault();const u=editingUser,role=$("uRole").value,status=$("uStatus").value;
+      await safe(async()=>{const b=db.batch(),M=db.collection("calendarMembers");b.update(db.collection("users").doc(u.id),{role,status,updatedAt:serverTs()});
+        document.querySelectorAll("#uCals input").forEach(i=>{const had=umem[i.value];
+          if(i.checked&&!had)b.set(M.doc(),{userId:u.id,calendarId:i.value,active:true,role,createdAt:serverTs()});
+          else if(!i.checked&&had)b.delete(M.doc(had));else if(i.checked&&had)b.update(M.doc(had),{role,active:true});});
+        await b.commit();},"Usuario actualizado");hide("userModal");
+    });
+
+    /* Calendarios */
+    function renderCalConfig(){
+      $("calDays").innerHTML=WD.map(d=>`<label><input type="checkbox" value="${d}" ${d>=1&&d<=5?"checked":""}> ${WDN[d]}</label>`).join("");
+      const act=INTS.filter(i=>i.active!==false);
+      $("calInts").innerHTML=act.length?act.map(i=>`<label><input type="checkbox" value="${i.id}" data-name="${esc(i.name)}"> ${esc(i.name)}</label>`).join(""):'<span class="muted small">Registra entrevistadores en la sección Entrevistadores.</span>';
+    }
+    function calConfig(){
+      const s=$("calDayStart").value,e=$("calDayEnd").value;if(e<=s)throw new Error("La hora de fin debe ser posterior a la de inicio.");
+      const days=[...document.querySelectorAll("#calDays input:checked")].map(i=>+i.value);if(!days.length)throw new Error("Selecciona al menos un día de atención.");
+      return{slotMinutes:+$("calSlot").value,dayStart:s,dayEnd:e,weekdays:days,interviewers:[...document.querySelectorAll("#calInts input:checked")].map(i=>({id:i.value,name:i.dataset.name})),bookingOpen:$("calOpen").value==="true"};
+    }
+    async function saveCalendar(d){
+      if(editingCal){delete d.createdAt;delete d.createdBy;delete d.ownerId;await db.collection("calendars").doc(editingCal).update(d);}
+      else await db.collection("calendars").add(d);
+    }
+    function editCalendar(id){
+      const c=CALS.find(x=>x.id===id);if(!c||!isAdmin())return;openCalendarModal();editingCal=id;
+      const set=(k,v)=>$(k).value=v??"";
+      set("calName",c.name);set("calSubject",c.subject);set("calDescription",c.description);set("calMode",c.managementMode||"independent");set("calType",c.attentionMode||"presencial");set("calLocation",c.location);set("calStart",c.startDate);set("calEnd",c.endDate);set("calStatus",c.status||"active");set("calSlot",c.slotMinutes||30);set("calDayStart",c.dayStart||"08:00");set("calDayEnd",c.dayEnd||"17:00");set("calOpen",c.bookingOpen===false?"false":"true");
+      document.querySelectorAll("#calDays input").forEach(i=>i.checked=(c.weekdays||[1,2,3,4,5]).includes(+i.value));
+      const ids=(c.interviewers||[]).map(i=>i.id);document.querySelectorAll("#calInts input").forEach(i=>i.checked=ids.includes(i.value));
+      $("modalTitle").textContent="Editar calendario";$("saveCalendarBtn").textContent="Guardar cambios";hide("viewModal");
+    }
+    function viewCalendar(id){
+      const c=CALS.find(x=>x.id===id);if(!c)return;const n=APPS.filter(a=>a.calendarId===id&&a.status!=="cancelled").length,link=shareLink(id);
+      $("viewBody").innerHTML=`<h2>${esc(c.name)}</h2><p class="muted small">${esc(c.subject||"")}</p>${c.description?`<p>${esc(c.description)}</p>`:""}
+        <div class="calendar-meta"><span class="pill ${c.status==="active"?"green":"orange"}">${c.status==="active"?"Activo":"Borrador"}</span><span class="pill">${c.managementMode==="shared"?"Agenda compartida":"Agendas independientes"}</span><span class="pill">${esc(c.attentionMode||"presencial")}</span><span class="pill">${n} reservas</span></div>
+        <div class="set-label">Configuración</div><p style="margin:0">${fmtDate(c.startDate)} — ${fmtDate(c.endDate)}<br>${c.dayStart||"08:00"} a ${c.dayEnd||"17:00"} · ${c.slotMinutes||30} min · ${(c.weekdays||[1,2,3,4,5]).map(d=>WDN[d]).join(", ")}${c.location?`<br>${esc(c.location)}`:""}<br>Entrevistadores: ${(c.interviewers||[]).map(i=>esc(i.name)).join(", ")||"—"}<br>Reservas públicas: ${c.bookingOpen===false?"cerradas":"abiertas"}</p>
+        <div class="set-label">Enlace público de reservas</div><div class="field" style="margin:0"><input readonly value="${link}" onclick="this.select()"></div>
+        <div class="modal-actions" style="flex-wrap:wrap"><button class="btn btn-outline" data-close>Cerrar</button><button class="btn btn-light" data-a="cal-link" data-id="${id}">Copiar enlace</button><a class="btn btn-light" href="${link}" target="_blank" rel="noopener">Abrir</a>${isAdmin()?`<button class="btn btn-light" data-a="cal-edit" data-id="${id}">Editar</button><button class="btn btn-danger" data-a="cal-del" data-id="${id}">Eliminar</button>`:""}</div>`;
+      show("viewModal");
+    }
+    async function delCalendar(id){
+      if(!confirm("¿Eliminar este calendario y todas sus reservas? No se puede deshacer."))return;
+      try{
+        const as=APPS.filter(a=>a.calendarId===id);
+        for(let i=0;i<as.length;i+=200){const b=db.batch();as.slice(i,i+200).forEach(a=>{b.delete(db.collection("appointments").doc(a.id));if(a.slotId)b.delete(db.collection("slots").doc(a.slotId));});await b.commit();}
+        const ms=await db.collection("calendarMembers").where("calendarId","==",id).get(),b=db.batch();ms.docs.forEach(d=>b.delete(d.ref));await b.commit();
+        await db.collection("calendars").doc(id).delete();hide("viewModal");toast("Calendario eliminado");await refreshDashboard();
+      }catch(e){console.error(e);toast(friendlyError(e),true);}
+    }
+    async function copyLink(id){const l=shareLink(id);try{await navigator.clipboard.writeText(l);toast("Enlace copiado");}catch(e){prompt("Copia este enlace:",l);}}
+
+    /* Eventos globales */
+    document.addEventListener("click",async e=>{
+      const t=e.target.closest("[data-a],[data-close]");if(!t)return;
+      if(t.dataset.close!==undefined){t.closest(".modal-backdrop")?.classList.add("hidden");if(t.closest("#calendarModal"))closeCalendarModal();return;}
+      const a=t.dataset.a,id=t.dataset.id;
+      if(a==="slot"){document.querySelectorAll("#bkSlots .slot").forEach(s=>s.classList.toggle("on",s===t));bk.time=t.dataset.time;show("bkForm");}
+      else if(a.startsWith("app-"))safe(()=>setStatus(id,a.slice(4)),"Reserva actualizada");
+      else if(a==="int-edit")openInt(id);
+      else if(a==="int-del"){if(confirm("¿Eliminar este entrevistador?"))safe(()=>db.collection("interviewers").doc(id).delete(),"Entrevistador eliminado");}
+      else if(a==="user-edit")openUser(id);
+      else if(a==="cal-view")viewCalendar(id);
+      else if(a==="cal-edit")editCalendar(id);
+      else if(a==="cal-del")delCalendar(id);
+      else if(a==="cal-link")copyLink(id);
+    });
+    document.querySelectorAll(".modal-backdrop").forEach(m=>m.addEventListener("click",e=>{if(e.target===m){m.classList.add("hidden");if(m.id==="calendarModal")closeCalendarModal();}}));
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"){document.querySelectorAll(".modal-backdrop").forEach(m=>m.classList.add("hidden"));closeCalendarModal();}});
+
+    /* Reserva pública */
+    async function loadSlots(){
+      const c=bk.cal,box=$("bkSlots"),iid=$("bkInt")?.value||"";bk.time="";hide("bkForm");
+      const all=genSlots(c,bk.date);box.className="muted";
+      if(!bk.date)return;if(!all.length){box.textContent="No hay horarios disponibles para esa fecha.";return;}
+      box.textContent="Cargando horarios…";
+      try{const tk=await takenSlots(c.id,bk.date);box.className="slots";box.innerHTML=all.map(s=>`<button type="button" class="slot" data-a="slot" data-time="${s}" ${tk.has(slotKey(c,bk.date,s,iid))?"disabled":""}>${s}</button>`).join("");}
+      catch(err){box.className="muted";box.textContent=friendlyError(err);}
+    }
+    async function initBooking(){
+      hide("authView");show("bookView");const body=$("bookBody");
+      try{
+        const d=await db.collection("calendars").doc(BOOK_ID).get();if(!d.exists)throw new Error("x");
+        const c={id:d.id,...d.data()};if(c.status!=="active"||c.bookingOpen===false)throw new Error("x");
+        bk={cal:c,date:"",time:""};const today=todayStr(),min=c.startDate&&c.startDate>today?c.startDate:today,ind=c.managementMode==="independent"&&(c.interviewers||[]).length>0;
+        body.innerHTML=`<div class="panel"><h1 style="font-family:var(--display);margin:0 0 4px;font-size:26px;letter-spacing:-.02em">${esc(c.name)}</h1><div class="muted">${esc(c.subject||"")}</div>${c.description?`<p>${esc(c.description)}</p>`:""}<div class="calendar-meta"><span class="pill">${esc(c.attentionMode||"presencial")}</span>${c.location?`<span class="pill">${esc(c.location)}</span>`:""}<span class="pill">${c.slotMinutes||30} min</span></div></div>
+          <div class="panel"><div class="panel-head"><h2>1. Elige fecha y hora</h2></div><div class="two-col"><div class="field" style="margin-top:0"><label for="bkDate">Fecha</label><input id="bkDate" type="date" min="${min}" ${c.endDate?`max="${c.endDate}"`:""}></div>${ind?`<div class="field" style="margin-top:0"><label for="bkInt">Entrevistador</label><select id="bkInt">${c.interviewers.map(i=>`<option value="${i.id}">${esc(i.name)}</option>`).join("")}</select></div>`:""}</div><div id="bkSlots" class="muted">Selecciona una fecha para ver los horarios.</div></div>
+          <form id="bkForm" class="panel hidden"><div class="panel-head"><h2>2. Tus datos</h2></div><div class="field" style="margin-top:0"><label for="bkName">Nombre completo *</label><input id="bkName" required maxlength="120"></div><div class="two-col"><div class="field"><label for="bkEmail">Correo *</label><input id="bkEmail" type="email" required></div><div class="field"><label for="bkPhone">Teléfono</label><input id="bkPhone" maxlength="30"></div></div><div class="field"><label for="bkNotes">Comentarios</label><textarea id="bkNotes" rows="2" maxlength="500"></textarea></div><button class="btn btn-primary btn-block" id="bkBtn" type="submit">Confirmar reserva</button></form>`;
+        $("bkDate").addEventListener("change",e=>{bk.date=e.target.value;loadSlots();});$("bkInt")?.addEventListener("change",loadSlots);
+        $("bkForm").addEventListener("submit",async e=>{
+          e.preventDefault();const b=$("bkBtn");setBusy(b,true,"Confirmar reserva");const iid=$("bkInt")?.value||"";
+          try{await book(c,{date:bk.date,time:bk.time,iid,iname:c.interviewers?.find(i=>i.id===iid)?.name||"",name:$("bkName").value.trim(),email:$("bkEmail").value.trim(),phone:$("bkPhone").value.trim(),notes:$("bkNotes").value.trim()},"public");
+            body.innerHTML=`<div class="panel" style="text-align:center;padding:40px 24px"><div class="ok-mark">✓</div><h2 style="font-family:var(--display);margin:0 0 6px">¡Reserva registrada!</h2><p class="muted" style="margin:0">${fmtDate(bk.date)} a las ${bk.time}<br>${esc(c.name)}</p><p class="muted small" style="margin-top:14px">Tu reserva quedó pendiente de confirmación. Guarda esta fecha y hora.</p></div>`;}
+          catch(err){toast(err.code==="permission-denied"?"Ese horario acaba de ser reservado. Elige otro.":friendlyError(err),true);setBusy(b,false,"Confirmar reserva");loadSlots();}
+        });
+      }catch(err){console.error(err);body.innerHTML=`<div class="panel">${empty("Agenda no disponible","El enlace no es válido o las reservas están cerradas.")}</div>`;}
+    }
+    if(BOOK_ID){if(db)initBooking();else{hide("authView");show("bookView");$("bookBody").innerHTML=`<div class="panel">${empty("Agenda no disponible","No se pudo conectar con el servicio.")}</div>`;}}
 
     /* ===== Apariencia ===== */
     const AP_DEF={theme:"light",blue:"#3b6cf6",blue2:"#6a4cf0",side1:"#0b1b33",side2:"#08152a",font:"Inter",size:1};
