@@ -1,44 +1,40 @@
 rules_version = '2';
 service cloud.firestore {
-  match /databases/{database}/documents {
+  match /databases/{db}/documents {
     function signed() { return request.auth != null; }
-    function role() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role; }
-    function isAdmin() { return signed() && role() == 'admin'; }
-    function staff() { return signed() && role() in ['admin','calendarAdmin','editor']; }
-    function active() { return signed() && role() in ['admin','calendarAdmin','editor','viewer']; }
+    function hasProfile() { return signed() && exists(/databases/$(db)/documents/profiles/$(request.auth.uid)); }
+    function role() { return get(/databases/$(db)/documents/profiles/$(request.auth.uid)).data.role; }
+    function admin() { return hasProfile() && role() == 'admin'; }
+    function boss() { return hasProfile() && role() in ['admin', 'stake', 'ward']; }
+    function staff() { return hasProfile() && role() in ['admin', 'stake', 'ward', 'editor']; }
+    function viewer() { return hasProfile() && role() in ['admin', 'stake', 'ward', 'editor', 'view']; }
+    function openCal(id) { return get(/databases/$(db)/documents/pub/$(id)).data.open == true; }
 
-    match /users/{uid} {
-      allow read: if signed() && (request.auth.uid == uid || isAdmin());
-      allow create: if signed() && request.auth.uid == uid && request.resource.data.role == 'pending';
-      allow update: if isAdmin();
+    match /profiles/{uid} {
+      allow read: if signed() && (request.auth.uid == uid || viewer());
+      // Nadie puede darse un rol: solo 'member', o 'admin' si aún no existe el documento meta/bootstrap (primer usuario).
+      allow create: if signed() && request.auth.uid == uid && (request.resource.data.role == 'member' ||
+        (request.resource.data.role == 'admin' && !exists(/databases/$(db)/documents/meta/bootstrap)));
+      allow update, delete: if admin() && request.auth.uid != uid;
     }
-    match /usernames/{name} {
-      allow get: if true;
-      allow create: if signed() && request.resource.data.uid == request.auth.uid;
+    match /meta/bootstrap { allow read: if signed(); allow create: if signed() && !exists(/databases/$(db)/documents/meta/bootstrap); }
+    match /meta/{id} { allow read: if viewer(); allow write: if boss() && id != 'bootstrap'; }
+    match /{col}/{id} {
+      allow read: if viewer() && col in ['stakes', 'wards', 'interviewers', 'calendars', 'blocks'];
+      allow write: if boss() && col in ['stakes', 'wards', 'interviewers', 'calendars', 'blocks'];
     }
-    match /calendars/{id} {
-      allow get: if true;               // necesario para el enlace público de reservas
-      allow list: if active();
-      allow create, update, delete: if isAdmin();
-    }
-    match /calendarMembers/{id} {
-      allow read: if signed();
-      allow write: if isAdmin();
-    }
-    match /interviewers/{id} {
-      allow read: if active();
-      allow write: if isAdmin();
-    }
-    match /appointments/{id} {
-      allow create: if (request.resource.data.source == 'public' && request.resource.data.status == 'pending') || staff();
-      allow read: if active();
+    match /bookings/{id} {
+      allow read: if viewer();
+      // El miembro público solo puede crear una reserva "Reservada" de un calendario con el enlace abierto.
+      allow create: if staff() || (request.resource.data.status == 'Reservada' && request.resource.data.notes == '' && openCal(request.resource.data.calId));
       allow update, delete: if staff();
     }
-    match /slots/{id} {                 // evita reservas dobles (id determinista)
-      allow get, list: if true;
-      allow create: if true;
-      allow update: if false;
+    match /locks/{id} {
+      allow read: if true; // solo horarios ocupados, sin datos personales
+      allow create: if staff() || openCal(request.resource.data.cal);
       allow delete: if staff();
     }
+    match /pub/{id} { allow read: if true; allow write: if boss(); }
+    match /audit/{id} { allow read: if admin(); allow create: if staff(); }
   }
 }
