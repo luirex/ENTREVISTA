@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17345c">
+  <meta name="description" content="AGENDA DE ENTREVISTAS — Plataforma web de agendamiento multiusuario.">
+  <title>AGENDA DE ENTREVISTAS</title>
+  <style>
+    :root{--navy:#17345c;--navy2:#102744;--blue:#2f6fed;--bg:#f3f6fb;--surface:#fff;--text:#172338;--muted:#6b7890;--line:#e4eaf2;--green:#16865b;--red:#c94747;--orange:#b96b16;--shadow:0 12px 34px rgba(23,52,92,.08)}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.02em}.brand-mark{width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#2f6fed,#17345c);color:#fff;display:grid;place-items:center;font-weight:900;font-size:19px;box-shadow:0 7px 18px #2f6fed33}.auth-wrap{min-height:100vh;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);background:#fff}.auth-aside{background:linear-gradient(145deg,#102744,#1d4777);color:#fff;padding:clamp(32px,6vw,84px);display:flex;flex-direction:column;justify-content:space-between;min-height:100vh}.auth-aside h1{font-size:clamp(34px,4vw,54px);line-height:1.08;max-width:600px;margin:60px 0 18px}.auth-aside p{color:#d4e0ef;max-width:500px;font-size:17px}.auth-feature{display:flex;gap:12px;align-items:center;margin:18px 0;color:#e7eff9}.feature-dot{width:9px;height:9px;border-radius:50%;background:#77d6ae;box-shadow:0 0 0 5px #77d6ae22}.auth-main{display:grid;place-items:center;padding:28px}.auth-card{width:min(100%,430px)}.auth-card h2{font-size:28px;margin:28px 0 5px}.field{display:grid;gap:6px;margin:15px 0}.field label{font-weight:650;font-size:13px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 13px;background:#fff;color:var(--text);outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2f6fed18}.btn{border:0;border-radius:10px;padding:11px 16px;font-weight:700;display:inline-flex;justify-content:center;align-items:center;gap:8px}.btn-primary{background:var(--blue);color:white}.btn-primary:hover{background:#245fd1}.btn-light{background:#eef3fa;color:var(--navy)}.btn-outline{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn-danger{background:#fff0f0;color:var(--red)}.btn-block{width:100%}.link-btn{border:0;background:none;color:var(--blue);font-weight:700;padding:8px 0}.notice{padding:11px 13px;border-radius:10px;background:#eef5ff;color:#244c83;font-size:13px;margin:12px 0}.error{background:#fff0f0;color:#a12f2f}.success{background:#eaf8f1;color:#176b4b}.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:250px;background:var(--navy2);color:#fff;padding:22px 16px;display:flex;flex-direction:column;z-index:10}.sidebar .brand{padding:4px 8px 28px}.sidebar .brand-mark{background:#fff;color:var(--navy)}.nav-label{font-size:10px;letter-spacing:.12em;color:#91a6c2;font-weight:800;padding:14px 10px 7px}.nav-item{width:100%;text-align:left;background:transparent;border:0;color:#c9d5e5;padding:11px 12px;border-radius:9px;margin:2px 0;display:flex;align-items:center;gap:11px}.nav-item.active,.nav-item:hover{background:#ffffff17;color:#fff}.nav-icon{width:20px;text-align:center;font-size:17px}.sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff20;padding-top:16px}.main{margin-left:250px;min-height:100vh}.topbar{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;position:sticky;top:0;z-index:5}.topbar-title{font-weight:750;font-size:16px}.user-chip{display:flex;align-items:center;gap:10px}.avatar{width:36px;height:36px;border-radius:50%;background:#e5edfa;color:var(--navy);display:grid;place-items:center;font-weight:800}.content{padding:30px;max-width:1500px;margin:auto}.page-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:24px}.page-head h1{margin:0;font-size:27px}.page-head p{margin:5px 0;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:22px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:13px}.stat-value{font-size:30px;font-weight:800;margin-top:10px}.stat-icon{width:36px;height:36px;border-radius:10px;background:#edf3ff;color:var(--blue);display:grid;place-items:center}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.panel-head h2{font-size:17px;margin:0}.empty{padding:35px 15px;text-align:center;color:var(--muted)}.empty strong{display:block;color:var(--text);margin:8px 0}.calendar-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.calendar-card{border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}.calendar-card h3{margin:0 0 6px;overflow-wrap:anywhere}.calendar-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}.pill{font-size:11px;padding:4px 8px;border-radius:20px;background:#eef3fa;color:#52647d;font-weight:700}.pill.green{background:#e9f7ef;color:#16734d}.pill.orange{background:#fff3e4;color:#a45c10}.card-actions{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}th{color:var(--muted);font-weight:700;background:#fafbfd}.modal-backdrop{position:fixed;inset:0;background:#0c1b2d88;display:grid;place-items:center;padding:18px;z-index:30}.modal{width:min(100%,560px);background:#fff;border-radius:16px;padding:24px;max-height:90vh;overflow:auto;box-shadow:0 25px 80px #0003}.modal h2{margin:0 0 5px}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mobile-menu{display:none}.footer-note{font-size:12px;color:var(--muted);margin-top:18px}
+    @media(max-width:900px){.auth-wrap{grid-template-columns:1fr}.auth-aside{display:none}.sidebar{width:220px}.main{margin-left:220px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:650px){.sidebar{transform:translateX(-100%);transition:transform .2s}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.topbar{padding:0 16px}.mobile-menu{display:inline-flex}.content{padding:20px 15px}.stats{gap:10px}.stat{padding:13px}.stat-value{font-size:25px}.calendar-grid{grid-template-columns:1fr}.page-head{flex-direction:column}.two-col{grid-template-columns:1fr}.auth-main{padding:22px}}
+  </style>
+</head>
+<body>
+  <section id="authView" class="auth-wrap">
+    <aside class="auth-aside">
+      <div>
+        <div class="brand"><div class="brand-mark">A</div><span>AGENDA DE ENTREVISTAS</span></div>
+        <h1>Organiza tus entrevistas. Administra tu tiempo.</h1>
+        <p>Una plataforma centralizada para crear calendarios, coordinar entrevistadores y gestionar reservas desde cualquier navegador.</p>
+        <div class="auth-feature"><span class="feature-dot"></span> Calendarios independientes y compartidos</div>
+        <div class="auth-feature"><span class="feature-dot"></span> Accesos y permisos por usuario</div>
+        <div class="auth-feature"><span class="feature-dot"></span> Reservas disponibles desde enlaces web</div>
+      </div>
+      <div class="small" style="color:#9fb1c8">Plataforma web · Zona horaria America/Guayaquil</div>
+    </aside>
+    <main class="auth-main">
+      <div class="auth-card">
+        <div class="brand"><div class="brand-mark">A</div><div><div>AGENDA DE ENTREVISTAS</div><div class="small muted" style="font-weight:500">Administración de calendarios</div></div></div>
+        <h2 id="authTitle">Bienvenido</h2>
+        <p class="muted" id="authSubtitle">Ingresa con tu correo electrónico o crea tu cuenta.</p>
+        <div id="authNotice" class="notice hidden" role="status"></div>
+        <form id="loginForm">
+          <div class="field"><label for="loginId">Correo electrónico</label><input id="loginId" type="email" autocomplete="username" placeholder="nombre@ejemplo.com" required></div>
+          <div class="field"><label for="loginPassword">Contraseña</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Tu contraseña" required></div>
+          <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Iniciar sesión</button>
+        </form>
+        <form id="registerForm" class="hidden">
+          <div class="field"><label for="registerName">Nombres y apellidos</label><input id="registerName" autocomplete="name" required maxlength="120"></div>
+          <div class="field"><label for="registerUsername">Nombre de usuario</label><input id="registerUsername" autocomplete="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9._-]+" placeholder="ej. carlos.perez"></div>
+          <div class="field"><label for="registerEmail">Correo electrónico</label><input id="registerEmail" type="email" autocomplete="email" required></div>
+          <div class="field"><label for="registerPassword">Contraseña (mínimo 6 caracteres)</label><input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required></div>
+          <button class="btn btn-primary btn-block" type="submit" id="registerBtn">Crear cuenta</button>
+        </form>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button class="link-btn" id="toggleAuth" type="button">Crear una cuenta</button>
+          <button class="link-btn" id="forgotBtn" type="button">¿Olvidaste tu contraseña?</button>
+        </div>
+        <p class="footer-note">El acceso requiere una cuenta autorizada. Las cuentas nuevas quedan pendientes de aprobación del administrador.</p>
+      </div>
+    </main>
+  </section>
+
+  <section id="appView" class="app hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="brand-mark">A</div><span>AGENDA PRO</span></div>
+      <div class="nav-label">GENERAL</div>
+      <button class="nav-item active" data-page="dashboard"><span class="nav-icon">▦</span> Panel principal</button>
+      <button class="nav-item" data-page="calendars"><span class="nav-icon">▣</span> Calendarios</button>
+      <button class="nav-item" data-page="appointments"><span class="nav-icon">☷</span> Reservas</button>
+      <div class="nav-label">ADMINISTRACIÓN</div>
+      <button class="nav-item" data-page="users"><span class="nav-icon">♙</span> Usuarios</button>
+      <button class="nav-item" data-page="interviewers"><span class="nav-icon">♧</span> Entrevistadores</button>
+      <button class="nav-item" data-page="reports"><span class="nav-icon">▤</span> Estadísticas</button>
+      <div class="sidebar-bottom"><div class="small" style="color:#91a6c2;margin:0 10px 10px">Sesión iniciada</div><button class="nav-item" id="logoutBtn"><span class="nav-icon">↪</span> Cerrar sesión</button></div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:12px"><button class="btn btn-light mobile-menu" id="menuBtn" aria-label="Abrir menú">☰</button><div class="topbar-title" id="topbarTitle">Panel principal</div></div>
+        <div class="user-chip"><div class="avatar" id="userAvatar">U</div><div><div id="userName" style="font-weight:750;font-size:13px">Usuario</div><div id="userRole" class="small muted">Pendiente</div></div></div>
+      </header>
+      <div class="content">
+        <div id="pendingView" class="panel hidden"><h2>Cuenta pendiente de autorización</h2><p class="muted">Tu cuenta se creó correctamente, pero todavía no tiene permisos para administrar calendarios. Solicita al administrador principal que active tu acceso.</p><button class="btn btn-outline" id="pendingRefresh">Actualizar estado</button></div>
+        <div id="adminContent">
+          <section id="dashboardPage">
+            <div class="page-head"><div><h1>Panel principal</h1><p>Resumen general de la actividad de tus calendarios.</p></div><button class="btn btn-primary" id="quickCreate">＋ Crear calendario</button></div>
+            <div class="stats">
+              <div class="stat"><div class="stat-top"><span>Calendarios</span><span class="stat-icon">▣</span></div><div class="stat-value" id="statCalendars">—</div><div class="small muted">Calendarios accesibles</div></div>
+              <div class="stat"><div class="stat-top"><span>Reservas</span><span class="stat-icon">☷</span></div><div class="stat-value" id="statAppointments">—</div><div class="small muted">Registros almacenados</div></div>
+              <div class="stat"><div class="stat-top"><span>Usuarios</span><span class="stat-icon">♙</span></div><div class="stat-value" id="statUsers">—</div><div class="small muted">Cuentas registradas</div></div>
+              <div class="stat"><div class="stat-top"><span>Entrevistadores</span><span class="stat-icon">♧</span></div><div class="stat-value" id="statInterviewers">—</div><div class="small muted">Registros activos</div></div>
+            </div>
+            <div class="panel"><div class="panel-head"><h2>Calendarios recientes</h2><button class="btn btn-light" data-goto="calendars">Ver todos</button></div><div id="recentCalendars" class="calendar-grid"><div class="empty">Cargando calendarios…</div></div></div>
+            <div class="panel"><div class="panel-head"><h2>Estado de conexión</h2><span class="pill green" id="connectionState">Conectando</span></div><p class="muted" id="connectionText">Comprobando autenticación y base de datos.</p></div>
+          </section>
+          <section id="calendarsPage" class="hidden"><div class="page-head"><div><h1>Calendarios</h1><p>Administra las agendas que tienes autorizadas.</p></div><button class="btn btn-primary" id="createCalendarBtn">＋ Crear calendario</button></div><div class="panel"><div id="calendarList" class="calendar-grid"><div class="empty">Cargando…</div></div></div></section>
+          <section id="appointmentsPage" class="hidden"><div class="page-head"><div><h1>Reservas</h1><p>Consulta las reservas registradas en tus calendarios.</p></div></div><div class="panel"><div class="empty"><strong>Módulo de reservas en preparación</strong>La estructura de datos se incorporará en la siguiente iteración. No se muestran registros ficticios.</div></div></section>
+          <section id="usersPage" class="hidden"><div class="page-head"><div><h1>Usuarios</h1><p>Consulta las cuentas registradas en la plataforma.</p></div></div><div class="panel"><div id="usersList" class="empty">La administración de roles y permisos se habilitará en la siguiente iteración.</div></div></section>
+          <section id="interviewersPage" class="hidden"><div class="page-head"><div><h1>Entrevistadores</h1><p>Gestiona las personas asignadas a las agendas.</p></div></div><div class="panel"><div class="empty"><strong>Módulo en preparación</strong>Se habilitará junto con la configuración de calendarios.</div></div></section>
+          <section id="reportsPage" class="hidden"><div class="page-head"><div><h1>Estadísticas</h1><p>Indicadores de actividad y ocupación.</p></div></div><div class="panel"><div class="empty"><strong>Sin estadísticas todavía</strong>Los reportes se activarán cuando esté disponible el módulo de reservas.</div></div></section>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <div id="calendarModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <h2 id="modalTitle">Crear calendario</h2><p class="muted small">Registra la información inicial de una agenda.</p>
+      <div id="modalNotice" class="notice hidden"></div>
+      <form id="calendarForm">
+        <div class="field"><label for="calName">Nombre del calendario *</label><input id="calName" maxlength="100" required placeholder="Ej. Entrevistas zona norte"></div>
+        <div class="field"><label for="calSubject">Asunto o motivo *</label><input id="calSubject" maxlength="160" required placeholder="Ej. Entrevistas de selección"></div>
+        <div class="field"><label for="calDescription">Descripción</label><textarea id="calDescription" rows="3" maxlength="1000" placeholder="Información general de la agenda"></textarea></div>
+        <div class="two-col">
+          <div class="field"><label for="calMode">Modalidad de administración *</label><select id="calMode" required><option value="independent">Agendas independientes</option><option value="shared">Agenda compartida</option></select></div>
+          <div class="field"><label for="calType">Modalidad de atención</label><select id="calType"><option value="presencial">Presencial</option><option value="virtual">Virtual</option><option value="mixta">Mixta</option></select></div>
+        </div>
+        <div class="field"><label for="calLocation">Lugar o enlace</label><input id="calLocation" maxlength="250" placeholder="Dirección o enlace de reunión"></div>
+        <div class="two-col">
+          <div class="field"><label for="calStart">Fecha de inicio *</label><input id="calStart" type="date" required></div>
+          <div class="field"><label for="calEnd">Fecha de finalización *</label><input id="calEnd" type="date" required></div>
+        </div>
+        <div class="field"><label for="calStatus">Estado</label><select id="calStatus"><option value="active">Activo</option><option value="draft">Borrador</option></select></div>
+        <div class="modal-actions"><button type="button" class="btn btn-outline" id="cancelModal">Cancelar</button><button type="submit" class="btn btn-primary" id="saveCalendarBtn">Guardar calendario</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script>
+    // 1) Sustituye estos valores por la configuración de TU proyecto Firebase.
+    const firebaseConfig = {
+      apiKey: "REEMPLAZAR_API_KEY",
+      authDomain: "REEMPLAZAR_PROJECT_ID.firebaseapp.com",
+      projectId: "REEMPLAZAR_PROJECT_ID",
+      storageBucket: "REEMPLAZAR_PROJECT_ID.appspot.com",
+      messagingSenderId: "REEMPLAZAR_MESSAGING_SENDER_ID",
+      appId: "REEMPLAZAR_APP_ID"
+    };
+
+    const $ = (id) => document.getElementById(id);
+    let auth = null, db = null, currentUser = null, currentProfile = null;
+    const configured = firebaseConfig.apiKey !== "REEMPLAZAR_API_KEY" && firebaseConfig.projectId !== "REEMPLAZAR_PROJECT_ID";
+    const pageNames = {dashboard:"Panel principal",calendars:"Calendarios",appointments:"Reservas",users:"Usuarios",interviewers:"Entrevistadores",reports:"Estadísticas"};
+
+    function showNotice(id, message, type="info") { const el=$(id); el.textContent=message; el.className="notice"+(type==="error"?" error":type==="success"?" success":""); }
+    function hideNotice(id){$(id).classList.add("hidden");}
+    function friendlyError(error){ const map={"auth/invalid-credential":"Correo o contraseña incorrectos.","auth/user-not-found":"No existe una cuenta con esos datos.","auth/wrong-password":"Correo o contraseña incorrectos.","auth/email-already-in-use":"Ese correo ya está registrado.","auth/weak-password":"La contraseña debe tener al menos 6 caracteres.","auth/invalid-email":"El correo electrónico no es válido.","auth/too-many-requests":"Demasiados intentos. Inténtalo más tarde.","permission-denied":"Firebase rechazó la operación por permisos. Revisa las reglas de Firestore.","unavailable":"No se pudo conectar con Firebase. Comprueba tu conexión."}; return map[error.code] || error.message || "Ocurrió un error inesperado."; }
+    function setBusy(button,busy,label){button.disabled=busy;button.textContent=busy?"Procesando…":label;}
+    function initials(name){return (name||"U").trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();}
+
+    if(configured){
+      try { firebase.initializeApp(firebaseConfig); auth=firebase.auth(); db=firebase.firestore(); auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error); }
+      catch(e){console.error(e);showNotice("authNotice","No se pudo inicializar Firebase: "+e.message,"error");}
+    } else {
+      showNotice("authNotice","Falta conectar Firebase. En el siguiente paso pegaremos la configuración web de tu proyecto para activar el inicio de sesión y la base de datos.");
+    }
+
+    $("toggleAuth").addEventListener("click",()=>{
+      const registering=$("registerForm").classList.toggle("hidden");
+      $("loginForm").classList.toggle("hidden",registering);
+      $("authTitle").textContent=registering?"Crear cuenta":"Bienvenido";
+      $("authSubtitle").textContent=registering?"Registra tus datos. El administrador deberá autorizar tu cuenta.":"Ingresa con tu correo electrónico.";
+      $("toggleAuth").textContent=registering?"Ya tengo una cuenta":"Crear una cuenta";
+      $("forgotBtn").classList.toggle("hidden",registering);hideNotice("authNotice");
+    });
+
+    $("loginForm").addEventListener("submit",async e=>{
+      e.preventDefault(); if(!auth){showNotice("authNotice","Primero debemos conectar el proyecto Firebase.");return;}
+      const btn=$("loginBtn");setBusy(btn,true,"Iniciar sesión");hideNotice("authNotice");
+      try{await auth.signInWithEmailAndPassword($("loginId").value.trim(),$("loginPassword").value);}
+      catch(err){showNotice("authNotice",friendlyError(err),"error");setBusy(btn,false,"Iniciar sesión");}
+    });
+
+    $("registerForm").addEventListener("submit",async e=>{
+      e.preventDefault();if(!auth||!db){showNotice("authNotice","Primero debemos conectar el proyecto Firebase.");return;}
+      const btn=$("registerBtn"), name=$("registerName").value.trim(), username=$("registerUsername").value.trim().toLowerCase(), email=$("registerEmail").value.trim().toLowerCase(), password=$("registerPassword").value;
+      if(!/^[a-z0-9._-]{3,30}$/.test(username)){showNotice("authNotice","El usuario debe tener entre 3 y 30 caracteres: letras, números, punto, guion o guion bajo.","error");return;}
+      setBusy(btn,true,"Crear cuenta");hideNotice("authNotice");
+      try{
+        const usernameRef=db.collection("usernames").doc(username);const usernameSnap=await usernameRef.get();
+        if(usernameSnap.exists)throw new Error("Ese nombre de usuario ya está ocupado.");
+        const credential=await auth.createUserWithEmailAndPassword(email,password);
+        await credential.user.updateProfile({displayName:name});
+        const batch=db.batch();
+        batch.set(db.collection("users").doc(credential.user.uid),{uid:credential.user.uid,name,username,email,role:"pending",status:"pending",createdAt:firebase.firestore.FieldValue.serverTimestamp(),timezone:"America/Guayaquil"});
+        batch.set(usernameRef,{uid:credential.user.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+        await batch.commit();
+        showNotice("authNotice","Cuenta creada. Está pendiente de aprobación del administrador.","success");
+      }catch(err){showNotice("authNotice",friendlyError(err),"error");if(auth.currentUser)await auth.signOut();}
+      finally{setBusy(btn,false,"Crear cuenta");}
+    });
+
+    $("forgotBtn").addEventListener("click",async()=>{
+      if(!auth){showNotice("authNotice","Primero debemos conectar Firebase.");return;}
+      const email=$("loginId").value.trim();if(!email){showNotice("authNotice","Escribe tu correo electrónico en el campo de acceso.");return;}
+      try{await auth.sendPasswordResetEmail(email);showNotice("authNotice","Si el correo corresponde a una cuenta, recibirás instrucciones para restablecer la contraseña.","success");}
+      catch(err){showNotice("authNotice",friendlyError(err),"error");}
+    });
+
+    async function loadProfile(user){
+      const ref=db.collection("users").doc(user.uid);let snap=await ref.get();
+      if(!snap.exists){await ref.set({uid:user.uid,name:user.displayName||user.email, email:user.email||"",role:"pending",status:"pending",createdAt:firebase.firestore.FieldValue.serverTimestamp(),timezone:"America/Guayaquil"});snap=await ref.get();}
+      currentProfile=snap.data();
+      $("userName").textContent=currentProfile.name||user.displayName||user.email;
+      $("userRole").textContent=currentProfile.role==="admin"?"Administrador principal":currentProfile.role==="calendarAdmin"?"Administrador de agenda":currentProfile.role==="editor"?"Editor":currentProfile.role==="viewer"?"Consulta":"Pendiente de autorización";
+      $("userAvatar").textContent=initials(currentProfile.name||user.email);
+      const allowed=["admin","calendarAdmin","editor","viewer"].includes(currentProfile.role)&&currentProfile.status!=="disabled";
+      $("pendingView").classList.toggle("hidden",allowed);$("adminContent").classList.toggle("hidden",!allowed);
+      if(allowed)await refreshDashboard();
+    }
+
+    auth?.onAuthStateChanged(async user=>{
+      currentUser=user;
+      if(!user){$("appView").classList.add("hidden");$("authView").classList.remove("hidden");return;}
+      if(!db){await auth.signOut();return;}
+      $("authView").classList.add("hidden");$("appView").classList.remove("hidden");
+      try{await loadProfile(user);}catch(err){console.error(err);$("connectionState").textContent="Error";$("connectionText").textContent=friendlyError(err);}
+    });
+
+    async function getAccessibleCalendars(){
+      if(!currentUser||!currentProfile)return [];
+      if(currentProfile.role==="admin") {const s=await db.collection("calendars").orderBy("createdAt","desc").limit(100).get();return s.docs.map(d=>({id:d.id,...d.data()}));}
+      const memberships=await db.collection("calendarMembers").where("userId","==",currentUser.uid).where("active","==",true).get();
+      const ids=memberships.docs.map(d=>d.data().calendarId).filter(Boolean);const result=[];
+      for(let i=0;i<ids.length;i+=10){const part=ids.slice(i,i+10);const s=await db.collection("calendars").where(firebase.firestore.FieldPath.documentId(),"in",part).get();s.docs.forEach(d=>result.push({id:d.id,...d.data()}));}
+      return result.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    }
+    async function refreshDashboard(){
+      try{
+        const calendars=await getAccessibleCalendars();
+        $("statCalendars").textContent=calendars.length;
+        $("statAppointments").textContent="—";$("statUsers").textContent=currentProfile.role==="admin"?"—":"Restringido";$("statInterviewers").textContent="—";
+        renderCalendars(calendars.slice(0,4),"recentCalendars");renderCalendars(calendars,"calendarList");
+        $("connectionState").textContent="Conectado";$("connectionText").textContent="Sesión autenticada y lectura de calendarios completada correctamente.";
+      }catch(err){console.error(err);$("connectionState").textContent="Revisar permisos";$("connectionText").textContent=friendlyError(err);$("recentCalendars").innerHTML='<div class="empty">No se pudieron consultar los calendarios. Revisa las reglas de Firestore.</div>';}
+    }
+    function renderCalendars(items,target){
+      const el=$(target);if(!items.length){el.innerHTML='<div class="empty" style="grid-column:1/-1"><strong>Todavía no hay calendarios</strong>Cuando crees una agenda, aparecerá aquí.</div>';return;}
+      el.innerHTML=items.map(c=>`<article class="calendar-card"><h3>${escapeHtml(c.name||"Calendario sin nombre")}</h3><div class="muted small">${escapeHtml(c.subject||"Sin asunto")}</div><div class="calendar-meta"><span class="pill">${c.managementMode==="shared"?"Agenda compartida":"Agendas independientes"}</span><span class="pill ${c.status==="active"?"green":"orange"}">${c.status==="active"?"Activo":"Borrador"}</span><span class="pill">${escapeHtml(c.attentionMode||"presencial")}</span></div><div class="small muted" style="margin-top:12px">${escapeHtml(c.startDate||"Sin fecha")} — ${escapeHtml(c.endDate||"Sin fecha")}</div><div class="card-actions"><button class="btn btn-light" data-open-calendar="${c.id}">Consultar</button></div></article>`).join("");
+    }
+    function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+
+    function openCalendarModal(){
+      if(currentProfile?.role!=="admin"){alert("Solo el administrador principal puede crear calendarios en esta versión inicial.");return;}
+      $("calendarForm").reset();hideNotice("modalNotice");const today=new Date().toLocaleDateString("en-CA",{timeZone:"America/Guayaquil"});$("calStart").value=today;$("calEnd").value=today;$("calendarModal").classList.remove("hidden");
+    }
+    function closeCalendarModal(){$("calendarModal").classList.add("hidden");}
+    $("quickCreate").addEventListener("click",openCalendarModal);$("createCalendarBtn").addEventListener("click",openCalendarModal);$("cancelModal").addEventListener("click",closeCalendarModal);
+    $("calendarModal").addEventListener("click",e=>{if(e.target===$("calendarModal"))closeCalendarModal();});
+    $("calendarForm").addEventListener("submit",async e=>{
+      e.preventDefault();if(!currentUser||currentProfile?.role!=="admin"){showNotice("modalNotice","No tienes permiso para crear calendarios.","error");return;}
+      const start=$("calStart").value,end=$("calEnd").value;if(end<start){showNotice("modalNotice","La fecha final no puede ser anterior a la fecha inicial.","error");return;}
+      const btn=$("saveCalendarBtn");setBusy(btn,true,"Guardar calendario");
+      try{
+        const data={name:$("calName").value.trim(),subject:$("calSubject").value.trim(),description:$("calDescription").value.trim(),managementMode:$("calMode").value,attentionMode:$("calType").value,location:$("calLocation").value.trim(),startDate:start,endDate:end,status:$("calStatus").value,timezone:"America/Guayaquil",ownerId:currentUser.uid,createdBy:currentUser.uid,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+        await db.collection("calendars").add(data);closeCalendarModal();await refreshDashboard();showPage("calendars");
+      }catch(err){showNotice("modalNotice",friendlyError(err),"error");}
+      finally{setBusy(btn,false,"Guardar calendario");}
+    });
+
+    function showPage(page){Object.keys(pageNames).forEach(k=>$(k+"Page").classList.toggle("hidden",k!==page));$("topbarTitle").textContent=pageNames[page]||"Panel principal";document.querySelectorAll(".nav-item[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===page));$("sidebar").classList.remove("open");}
+    document.querySelectorAll(".nav-item[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+    document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.goto)));
+    $("menuBtn").addEventListener("click",()=>$ ("sidebar").classList.toggle("open"));
+    $("logoutBtn").addEventListener("click",()=>auth?.signOut());
+    $("pendingRefresh").addEventListener("click",async()=>{if(currentUser)await loadProfile(currentUser);});
+    document.addEventListener("click",e=>{const b=e.target.closest("[data-open-calendar]");if(b){const id=b.dataset.openCalendar;const item=document.createElement("div");item.className="notice";item.textContent="Identificador del calendario: "+id+". La edición y configuración avanzada se habilitarán en la siguiente fase.";const host=$("calendarList");host.prepend(item);setTimeout(()=>item.remove(),5000);}});
+  </script>
+</body>
+</html>

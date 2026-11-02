@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function myProfile() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function isAdmin() { return signedIn() && myProfile().role == 'admin' && myProfile().status != 'disabled'; }
+    function isCalendarMember(calendarId) {
+      return signedIn() && exists(/databases/$(database)/documents/calendarMembers/$(request.auth.uid + '_' + calendarId))
+        && get(/databases/$(database)/documents/calendarMembers/$(request.auth.uid + '_' + calendarId)).data.active == true;
+    }
+
+    match /users/{userId} {
+      allow create: if signedIn() && request.auth.uid == userId
+        && request.resource.data.uid == userId
+        && request.resource.data.role == 'pending'
+        && request.resource.data.status == 'pending';
+      allow read: if signedIn() && (request.auth.uid == userId || isAdmin());
+      // El usuario no puede cambiar su propio rol ni estado. La administración se hará con backend confiable.
+      allow update, delete: if isAdmin();
+    }
+
+    match /usernames/{username} {
+      // El índice de nombres de usuario solo se consulta durante el registro.
+      // No contiene correos ni datos personales.
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && !exists(/databases/$(database)/documents/usernames/$(username));
+      allow update, delete: if isAdmin();
+    }
+
+    match /calendars/{calendarId} {
+      allow read: if isAdmin() || isCalendarMember(calendarId);
+      allow create: if isAdmin() && request.resource.data.createdBy == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    match /calendarMembers/{membershipId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Las demás colecciones permanecen cerradas hasta implementar sus reglas específicas.
+    match /{document=**} { allow read, write: if false; }
+  }
+}
