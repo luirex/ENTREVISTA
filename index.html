@@ -102,7 +102,7 @@ h2{background:none;-webkit-background-clip:initial;background-clip:initial;color
  .side span.t{display:block!important}.side button i{font-size:1.4em}
  main{padding:12px 12px 92px}.top{padding:8px 12px}.hero{padding:18px}.hero h2{font-size:1.5em}
  #mod{align-items:flex-end;padding:0}.mb{width:100%;max-height:94vh;border-radius:16px 16px 0 0;padding:18px 16px}
- .mosaic{grid-template-columns:1fr}.cal th,.cal td{min-width:92px;padding:2px}.cal th:first-child{min-width:74px}
+ .mosaic{grid-template-columns:1fr}.cal th,.cal td{min-width:0;padding:1px}.cal th{font-size:.72em;padding:4px 1px}.cal th:first-child{min-width:0;width:52px;font-size:.68em;position:sticky;left:0;z-index:1;background:var(--card)}.cal .cell{font-size:.7em;padding:3px 1px;min-height:38px;line-height:1.15}.cal .cn{font-size:.9em}.cal th small{font-size:.9em}
  input,select,textarea{font-size:16px}.row{gap:10px}#toast{left:12px;right:12px;bottom:84px}
 }
 /* ===== Fichas editables, panel de apariencia y contraste automático ===== */
@@ -178,7 +178,7 @@ function capacity(dates,only){let cap=0,used=0,free=0;for(const cal of S.calenda
  else slotsFor(cal,d).forEach(s=>{if(s.state=='blk')return;cap+=s.total;used+=s.total-s.free.length;free+=s.free.length})}
  return{cap,used,free,pct:cap?Math.round(used*100/cap):0}}
 /* ===== 5. UI BASE ===== */
-const U={page:'agendas',view:innerWidth<700?'day':'week',date:today(),calId:null,iv:null,period:'day',f:{},bq:'',bs:''};
+const U={page:'agendas',view:'week',date:today(),calId:null,iv:null,period:'day',f:{},bq:'',bs:''};
 function toast(m,t){const d=document.createElement('div');d.textContent=m;if(t)d.className=t;$('#toast').append(d);setTimeout(()=>d.remove(),3500)}
 function modal(t,b){$('#mod').innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-label="${esc(t)}"><div class="mh"><h3>${t}</h3><button class="x" data-a="close" aria-label="Cerrar">×</button></div>${b}</div>`;$('#mod').classList.add('on')}
 const closeM=()=>{$('#mod').classList.remove('on');$('#mod').innerHTML=''};let pend;
@@ -335,7 +335,7 @@ usnew(f,el){const fo=Object.fromEntries(new FormData(el)),perms=Object.keys(PL).
 edays(f,el){const c=DB.get('calendars',el.dataset.id),fo=Object.fromEntries(new FormData(el)),a=parseAg(fo,c);if(a.err)return toast(a.err,'err');const w0=DB.get('wards',c.wardId)||{};
  DB.upd('calendars',c.id,{name:fo.name||c.name,status:fo.status||c.status,model:a.model,policy:a.policy,ivIds:a.ivIds.concat(mkIvs(a.newNames,w0)),days:a.days,dur:a.dur,gap:a.gap,until:a.until,forms:a.forms,fields:a.fields,subjects:a.subjects});U.iv=null;closeM();toast('Agenda actualizada');render()},
 quick(f,el){const fo=Object.fromEntries(new FormData(el)),a=parseAg(fo);if(a.err)return toast(a.err,'err');const w0=DB.get('wards',cu().wardId||fo.wardId)||{},ids=a.ivIds.concat(mkIvs(a.newNames,w0));
- const c=DB.add('calendars',{name:fo.name,desc:'',stakeId:w0.stakeId||'',wardId:w0.id||'',type:'Entrevista',owner:cu().name,status:'Activo',model:a.model,policy:a.policy,ivIds:ids,days:a.days,dur:a.dur,gap:a.gap,until:a.until,forms:a.forms,fields:a.fields,subjects:a.subjects});U.calId=c.id;U.iv=null;U.quick=false;U.view=innerWidth<700?'day':'week';toast('Agenda creada');render()},
+ const c=DB.add('calendars',{name:fo.name,desc:'',stakeId:w0.stakeId||'',wardId:w0.id||'',type:'Entrevista',owner:cu().name,status:'Activo',model:a.model,policy:a.policy,ivIds:ids,days:a.days,dur:a.dur,gap:a.gap,until:a.until,forms:a.forms,fields:a.fields,subjects:a.subjects});U.calId=c.id;U.iv=null;U.quick=false;U.view='week';toast('Agenda creada');render()},
 book(f,el){const cal=DB.get('calendars',el.dataset.c),fo=Object.fromEntries(new FormData(el)),pub=!!el.dataset.pub;
  if(SNAP){const{sl}=slotOf(cal.id,el.dataset.d,+el.dataset.s);closeM();open('https://wa.me/'+(cal.wa||'')+'?text='+encodeURIComponent('Hola, quisiera agendar una entrevista.\n'+fd(sl.date)+' · '+f12(sl.s)+' – '+f12(sl.e)+'\nNombre: '+fo.name+(fo.phone?'\nTeléfono: '+fo.phone:'')+(fo.form?'\nForma: '+fo.form:'')+(fo.subject?'\nAsunto: '+fo.subject:'')+(fo.ivId?'\nEntrevistador: '+nm('interviewers',fo.ivId):'')+(fo.comment?'\nComentario: '+fo.comment:'')),'_blank');return toast('Se abrió WhatsApp con tu solicitud')}
  if(el.dataset.id){const o=DB.get('bookings',el.dataset.id);DB.upd('bookings',el.dataset.id,{name:fo.name,phone:fo.phone??o.phone,email:fo.email??o.email,stakeId:fo.stakeId??o.stakeId,wardId:fo.wardId??o.wardId,subject:fo.subject??o.subject??'',comment:fo.comment??o.comment??'',form:fo.form||'',notes:fo.notes??''},'reserva');closeM();toast('Reserva actualizada');return render()}
